@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Space Mono", Courier, monospace;
+}
+
+:root {
+  --pageBg: #1a1c22;
+  --containerBg: #222125;
+  --complementaryColor: #ffdf00;
+  --fontColor: #f7f7f7;
+  --containerBorderColor: #28272b;
+  --containerRadius: 5px;
+}
+
+body {
+  /* from bgjar.com */
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--pageBg);
+  color: var(--fontColor);
+}
+
+.container {
+  width: 75vw;
+  height: 70vh;
+  overflow-y: scroll;
+  background: var(--containerBg);
+  padding: 2%;
+  margin: 10vh auto;
+  border: 3px solid var(--containerBorderColor);
+  border-radius: var(--containerRadius);
+}
+
+.line {
+    margin-bottom: 1% 0;
+}
+
+.line span:nth-child(1) {
+    font-weight: 700;
+}
+
+.line span:nth-child(2) {
+    color: var(--complementaryColor);
+    font-weight: 700;
+    animation: flashing 1s infinite linear;
+}
+
+.answear {
+    display: inline-block;
+    min-width: 40%;
+    outline: none;
+    caret-color: var(--fontColor);
+    font-size: 1rem;
+    color: var(--fontColor);
+    word-break: break-all;
+    cursor: text;
+}
+
+@keyframes flashing {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
