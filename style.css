@@ -12,6 +12,9 @@
   --fontColor: #f7f7f7;
   --containerBorderColor: #28272b;
   --containerRadius: 5px;
+  --responsibleFontSize: clamp(.7rem, 2vw, 1.1rem);
+  --scrollBarBtnColor: #3b3a3f;
+  --errorFontColor: rgb(158, 0, 0);
 }
 
 body {
@@ -22,40 +25,68 @@ body {
   color: var(--fontColor);
 }
 
-.container {
+header {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header h1 {
+  position: relative;
+  padding: 2%;
+  color: var(--complementaryColor);
+  font-size: clamp(30px, 3vw, 50px);
+  line-height: 3rem;
+  text-align: center;
+}
+
+main {
   width: 75vw;
-  height: 70vh;
+  height: 60vh;
   overflow-y: scroll;
   background: var(--containerBg);
   padding: 2%;
-  margin: 10vh auto;
+  margin: 0 auto 10vh auto;
   border: 3px solid var(--containerBorderColor);
   border-radius: var(--containerRadius);
+  font-size: var(--responsibleFontSize);
 }
 
 .line {
-    margin-bottom: 1% 0;
+    margin-bottom: 2% 0;
 }
 
 .line span:nth-child(1) {
     font-weight: 700;
 }
 
-.line span:nth-child(2) {
+.marked {
     color: var(--complementaryColor);
     font-weight: 700;
     animation: flashing 1s infinite linear;
 }
 
-.answear {
+.answer {
     display: inline-block;
     min-width: 40%;
     outline: none;
     caret-color: var(--fontColor);
-    font-size: 1rem;
+    font-size: var(--responsibleFontSize);
     color: var(--fontColor);
     word-break: break-all;
     cursor: text;
+}
+
+/* scroll bar */
+main::-webkit-scrollbar {
+  background: var(--containerBorderColor);
+}
+
+main::-webkit-scrollbar-thumb {
+  background-color: var(--scrollBarBtnColor);
+  border-left: 3px solid var(--containerBorderColor);
+  border-radius: 15px;
 }
 
 @keyframes flashing {

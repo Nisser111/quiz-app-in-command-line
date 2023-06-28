@@ -17,7 +17,7 @@
    - D. \<list>
 
 4. What is the purpose of the JavaScript function `querySelector()`?
-   - A. To select an HTML element by its class or ID*
+   - A. __To select an HTML element by its class or ID__
    - B. To perform mathematical calculations
    - C. To add event listeners
    - D. To change the page URL
