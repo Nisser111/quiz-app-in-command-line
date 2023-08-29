@@ -13,10 +13,6 @@ class Question {
     Question.count++;
   }
 
-  getQuestionCount() {
-    return Question.count;
-  }
-
   checkAnswer(ans) {
     if (this.correctAns === ans) return true;
     else return false;
@@ -24,6 +20,8 @@ class Question {
 
   showQuestion(num) {
     if ("content" in document.createElement("template")) {
+      const commandLine = document.querySelector("main");
+
       const template = document.querySelector("#questionLine");
       const clone = template.content.cloneNode(true);
 
@@ -48,7 +46,7 @@ class Question {
   }
 }
 
-function showCommandLine() {}
+let questions = [];
 
 function showError(lineHeader, content) {
   // Create element
@@ -135,37 +133,123 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
   let userEnteredCorrectly = false;
 
   while (!userEnteredCorrectly) {
-      const userAns = await getAnswer(lineHeader);
+    const userAns = await getAnswer(lineHeader);
 
     if (await validateAnswer(userAns, avaibleAsnwers)) {
       userEnteredCorrectly = true;
-      return userAns;
+      return new Promise((resolve) => {
+        resolve(userAns);
+      });
     } else {
       showError(lineHeader, "We don't have that answer. Please type again...");
     }
   }
 }
 
-// if(Array.isArray(avaibleAsnwers)) {
-//   if (avaibleAsnwers.includes(value)) return value; // replace to return
-//   else {
-//     showError(lineHeader, "We don't have that answer. Please type again...");
-//     return false;
-//   };
-// } else {
-//   alert("Sorry! We have some problems. We will fix them as soon as possible.");
-// }
+async function startQuiz(userAns) {
+  if (userAns === "go") {
+    let score = 0;
+    for (let q in questions) {
+      const currentQuestion = questions[q];
+      const questionNum = parseInt(q) + 1;
 
-window.onload = async function () {
-  let questions = [];
-  let userScore = 0;
+      await currentQuestion.showQuestion(q);
+      let userAns = await getUserAnswer(`question-${questionNum}`, [
+        "a",
+        "b",
+        "c",
+        "d",
+      ]);
 
+      if (await currentQuestion.checkAnswer(userAns)) score++;
+    }
+
+    return new Promise((resolve) => {
+      resolve(score);
+    });
+  }
+}
+
+function showCommonLine(lineHeader, content) {
+  // Create element
+  const commandLine = document.querySelector("main");
+
+  let line = document.createElement("div");
+  line.classList.add("line");
+
+  let span = document.createElement("span");
+  span.innerText = "programmer-quiz\\";
+
+  let header = document.createElement("span");
+  header.classList.add("header");
+  header.innerText = lineHeader;
+
+  span.appendChild(header);
+  span.innerHTML += "> ";
+
+  line.appendChild(span);
+
+  line.innerHTML += content;
+
+  commandLine.appendChild(line);
+}
+
+async function showSummary(userScore) {
+  switch (userScore) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      showCommonLine("summary", "It could be better but, your score is " + userScore + " points. We think you could use some more learning.")
+      break;
+
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+      showCommonLine("summary", "Good, your score is " + userScore + " points. So a little study more and you will be a great programmer.")
+      break;
+
+    case 8:
+    case 9:
+      showCommonLine("summary", "Congratulation! Your score is " + userScore + " points. A few mistake isn't tragedy. You are a good programmer.")
+      break;
+
+    case 10: 
+      showCommonLine("summary", "Perfect! Your score is " + userScore + " points, that is to say, you're a awesome programmer.")
+      break;
+  
+    default:
+      showError("summary", "Sorry! We have some problems. We will fix them as soon as possible.")
+      break;
+  }
+
+  showCommonLine("summary", 'If you want to repeat type <span class="marked">RESTART</span>');
+  return await getUserAnswer("summary", ['restart']);
+}
+
+async function repeat() {
+  const userScore = await startQuiz('go');
+  const summary = await showSummary(userScore);
+  if(summary === 'restart')
+    repeat();
+}
+
+async function quiz() {
+  const appStart = await getUserAnswer("start", ["go"]);
+  const userScore = await startQuiz(appStart);
+  const summary = await showSummary(userScore);
+  if(summary === 'restart')
+    repeat();
+}
+
+window.onload = function () {
   // adding questions
   questions.push(
     new Question(
       "Which of the following languages is not used for frontend development?",
       ["HTML", "Java", "CSS", "JavaScript"],
-      "Java"
+      "b"
     )
   );
 
@@ -178,7 +262,7 @@ window.onload = async function () {
         "Computer Style Sheets",
         "Colorful Style Symbols",
       ],
-      "Cascading Style Sheets"
+      "a"
     )
   );
 
@@ -186,7 +270,7 @@ window.onload = async function () {
     new Question(
       "Which HTML tag is used to define an unordered list?",
       ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;li&gt;", "&lt;list&gt;"],
-      "&lt;ul&gt;"
+      "a"
     )
   );
 
@@ -199,7 +283,7 @@ window.onload = async function () {
         "To add event listeners",
         "To change the page URL",
       ],
-      "To select an HTML element by its class or ID"
+      "a"
     )
   );
 
@@ -207,7 +291,7 @@ window.onload = async function () {
     new Question(
       "Which of the following is a valid way to declare a CSS class?",
       [".my-class", "#my-class", "class.my-class", "&lt;my-class&gt;"],
-      ".my-class"
+      "a"
     )
   );
 
@@ -220,7 +304,7 @@ window.onload = async function () {
         "for (i < 5; i++)",
         "for (i = 0; i++)",
       ],
-      "for (i = 0; i < 5; i++)"
+      "a"
     )
   );
 
@@ -233,7 +317,7 @@ window.onload = async function () {
         "Automated Programming Interface",
         "Associated Program Interface",
       ],
-      "Application Programming Interface"
+      "b"
     )
   );
 
@@ -241,7 +325,7 @@ window.onload = async function () {
     new Question(
       "Which of the following is used to make a webpage responsive to different screen sizes?",
       ["Media queries", "JavaScript", "CSS selectors", "HTML forms"],
-      "Media queries"
+      "a"
     )
   );
 
@@ -254,7 +338,7 @@ window.onload = async function () {
         "To embed videos",
         "To style text",
       ],
-      "To create animations and graphics"
+      "b"
     )
   );
 
@@ -267,11 +351,10 @@ window.onload = async function () {
         "Makes an element visible on hover",
         "Hides an element from the webpage",
       ],
-      "Hides an element from the webpage"
+      "d"
     )
   );
 
-  const appStart = await getUserAnswer("start", ["go"]);
-
+  showCommonLine("start", `Hi! Do you think you're a good programmer? Let's check this. Type <span class="marked">GO</span> to start the quiz...`);
+  quiz();
 };
-
