@@ -41,9 +41,10 @@ class Question {
       ansC.innerHTML += this.ansC;
       ansD.innerHTML += this.ansD;
 
+      console.log("show question", number);
       commandLine.append(clone);
     } else {
-      alert("Your browswere doesn't support taplate.")
+      alert("Your browswere doesn't support taplate.");
     }
   }
 }
@@ -72,6 +73,7 @@ function showError(lineHeader, content) {
 
   line.innerText += content;
 
+  console.log("Error showed.")
   commandLine.appendChild(line);
 }
 
@@ -115,6 +117,7 @@ function getAnswer(lineHeader) {
     lastAnswerField.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
         e.target.setAttribute("contenteditable", "false");
+        console.log("getUserAnswer: loaded answer")
         resolve(e.target.innerText.toLowerCase().trim());
       }
     });
@@ -123,11 +126,16 @@ function getAnswer(lineHeader) {
 
 function validateAnswer(value, avaibleAsnwers) {
   return new Promise((resolve, reject) => {
-    if (Array.isArray(avaibleAsnwers)) resolve(avaibleAsnwers.includes(value));
-    else
+    if (Array.isArray(avaibleAsnwers)) {
+      console.log("getUserAnswer: data successed validated");
+      resolve(avaibleAsnwers.includes(value));
+    }
+    else {
+      console.log("getUserAnswer: data not succesed validated");
       reject(
         "Sorry! We have some problems. We will fix them as soon as possible."
       );
+    }
   });
 }
 
@@ -140,9 +148,11 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
     if (await validateAnswer(userAns, avaibleAsnwers)) {
       userEnteredCorrectly = true;
       return new Promise((resolve) => {
+        console.log("user answer returned")
         resolve(userAns);
       });
     } else {
+      console.log("Error showe");
       showError(lineHeader, "We don't have that answer. Please type again...");
     }
   }
@@ -151,6 +161,7 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
 
 async function startQuiz(userAns) {
   if (userAns === "go") {
+    console.log("quiz started...")
     let score = 0;
     for (let q in questions) {
       const currentQuestion = questions[q];
@@ -168,6 +179,7 @@ async function startQuiz(userAns) {
     }
 
     return new Promise((resolve) => {
+      console.log("quiz ended")
       resolve(score);
     });
   }
@@ -228,17 +240,21 @@ async function showSummary(userScore) {
   }
 
   showCommonLine("summary", 'If you want to repeat type <span class="marked">RESTART</span>');
+  console.log("summary showed")
   return await getUserAnswer("summary", ['restart']);
 }
 
 async function repeat() {
   const userScore = await startQuiz('go');
   const summary = await showSummary(userScore);
-  if(summary === 'restart')
+  if(summary === 'restart') {
+    console.log("quiz reapet")
     repeat();
+  }
 }
 
 async function quiz() {
+  console.log("quiz() function")
   const appStart = await getUserAnswer("start", ["go"]);
   const userScore = await startQuiz(appStart);
   const summary = await showSummary(userScore);
