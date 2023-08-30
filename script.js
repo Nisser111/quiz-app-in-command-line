@@ -264,12 +264,12 @@ window.onload = function () {
     new Question(
       "What does CSS stand for?",
       [
-        "Cascading Style Sheets",
         "Creative Style System",
         "Computer Style Sheets",
+        "Cascading Style Sheets",
         "Colorful Style Symbols",
       ],
-      "a"
+      "c"
     )
   );
 
@@ -285,20 +285,20 @@ window.onload = function () {
     new Question(
       "What is the purpose of the JavaScript function `querySelector()`?",
       [
-        "To select an HTML element by its class or ID",
         "To perform mathematical calculations",
         "To add event listeners",
         "To change the page URL",
+        "To select an HTML element by its class or ID",
       ],
-      "a"
+      "d"
     )
   );
 
   questions.push(
     new Question(
       "Which of the following is a valid way to declare a CSS class?",
-      [".my-class", "#my-class", "class.my-class", "&lt;my-class&gt;"],
-      "a"
+      ["#my-class", ".my-class", "class.my-class", "&lt;my-class&gt;"],
+      "b"
     )
   );
 
@@ -307,11 +307,11 @@ window.onload = function () {
       "What is the correct syntax for a JavaScript `for` loop?",
       [
         "for (i = 0; i < 5; i++)",
-        "for (var i = 0; i < 5; i++)",
         "for (i < 5; i++)",
         "for (i = 0; i++)",
+        "for (var i = 0; i < 5; i++)",
       ],
-      "a"
+      "d"
     )
   );
 
@@ -341,11 +341,11 @@ window.onload = function () {
       "What is the purpose of the HTML &lt;canvas&gt; element?",
       [
         "To display images",
-        "To create animations and graphics",
         "To embed videos",
+        "To create animations and graphics",
         "To style text",
       ],
-      "b"
+      "c"
     )
   );
 
@@ -355,10 +355,10 @@ window.onload = function () {
       [
         "Increases the font size",
         "Changes the background color",
-        "Makes an element visible on hover",
         "Hides an element from the webpage",
+        "Makes an element visible on hover",
       ],
-      "d"
+      "c"
     )
   );
 
