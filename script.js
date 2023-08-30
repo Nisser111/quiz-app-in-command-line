@@ -42,6 +42,8 @@ class Question {
       ansD.innerHTML += this.ansD;
 
       commandLine.append(clone);
+    } else {
+      alert("Your browswere doesn't support taplate.")
     }
   }
 }
@@ -144,6 +146,7 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
       showError(lineHeader, "We don't have that answer. Please type again...");
     }
   }
+  
 }
 
 async function startQuiz(userAns) {
