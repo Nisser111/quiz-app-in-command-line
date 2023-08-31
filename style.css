@@ -67,9 +67,12 @@ main {
     animation: flashing 1s infinite linear;
 }
 
+.line.has-answer{
+  display: flex;
+}
+
 .answer {
-    display: inline-block;
-    min-width: 40%;
+    min-width: 50%;
     outline: none;
     caret-color: var(--fontColor);
     font-size: var(--responsibleFontSize);

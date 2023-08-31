@@ -81,7 +81,7 @@ function getAnswer(lineHeader) {
     const commandLine = document.querySelector("main");
 
     let line = document.createElement("div");
-    line.classList.add("line");
+    line.classList.add("line", "has-answer");
 
     let span = document.createElement("span");
     span.innerText = "programmer-quiz\\";
@@ -91,18 +91,21 @@ function getAnswer(lineHeader) {
     header.innerText = lineHeader;
 
     span.appendChild(header);
-    span.innerHTML += "> ";
+    span.innerHTML += ">&nbsp;";
 
     line.appendChild(span);
 
     let answerField = document.createElement("div");
     answerField.classList.add("answer");
     answerField.setAttribute("contenteditable", "true");
-    answerField.innerHTML = "";
+    answerField.innerText = "";
 
     line.appendChild(answerField);
 
     commandLine.appendChild(line);
+
+    // Set complementing width to answer field
+    answerField.style.width = line.offsetWidth - span.offsetWidth - 10 + "px";
 
     // Focus div
     const answerFields = document.querySelectorAll(".answer");
@@ -125,8 +128,7 @@ function validateAnswer(value, avaibleAsnwers) {
   return new Promise((resolve, reject) => {
     if (Array.isArray(avaibleAsnwers)) {
       resolve(avaibleAsnwers.includes(value));
-    }
-    else {
+    } else {
       reject(
         "Sorry! We have some problems. We will fix them as soon as possible."
       );
@@ -149,7 +151,6 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
       showError(lineHeader, "We don't have that answer. Please type again...");
     }
   }
-  
 }
 
 async function startQuiz(userAns) {
@@ -206,38 +207,64 @@ async function showSummary(userScore) {
     case 1:
     case 2:
     case 3:
-      showCommonLine("summary", "It could be better but, your score is " + userScore + " points. We think you could use some more learning.")
+      showCommonLine(
+        "summary",
+        "It could be better but, your score is " +
+          userScore +
+          " points. We think you could use some more learning."
+      );
       break;
 
     case 4:
     case 5:
     case 6:
     case 7:
-      showCommonLine("summary", "Good, your score is " + userScore + " points. So a little study more and you will be a great programmer.")
+      showCommonLine(
+        "summary",
+        "Good, your score is " +
+          userScore +
+          " points. So a little study more and you will be a great programmer."
+      );
       break;
 
     case 8:
     case 9:
-      showCommonLine("summary", "Congratulation! Your score is " + userScore + " points. A few mistake isn't tragedy. You are a good programmer.")
+      showCommonLine(
+        "summary",
+        "Congratulation! Your score is " +
+          userScore +
+          " points. A few mistake isn't tragedy. You are a good programmer."
+      );
       break;
 
-    case 10: 
-      showCommonLine("summary", "Perfect! Your score is " + userScore + " points, that is to say, you're a awesome programmer.")
+    case 10:
+      showCommonLine(
+        "summary",
+        "Perfect! Your score is " +
+          userScore +
+          " points, that is to say, you're a awesome programmer."
+      );
       break;
-  
+
     default:
-      showError("summary", "Sorry! We have some problems. We will fix them as soon as possible.")
+      showError(
+        "summary",
+        "Sorry! We have some problems. We will fix them as soon as possible."
+      );
       break;
   }
 
-  showCommonLine("summary", 'If you want to repeat type <span class="marked">RESTART</span>');
-  return await getUserAnswer("summary", ['restart']);
+  showCommonLine(
+    "summary",
+    'If you want to repeat type <span class="marked">RESTART</span>...'
+  );
+  return await getUserAnswer("summary", ["restart"]);
 }
 
 async function repeat() {
-  const userScore = await startQuiz('go');
+  const userScore = await startQuiz("go");
   const summary = await showSummary(userScore);
-  if(summary === 'restart') {
+  if (summary === "restart") {
     repeat();
   }
 }
@@ -246,8 +273,7 @@ async function quiz() {
   const appStart = await getUserAnswer("start", ["go"]);
   const userScore = await startQuiz(appStart);
   const summary = await showSummary(userScore);
-  if(summary === 'restart')
-    repeat();
+  if (summary === "restart") repeat();
 }
 
 window.onload = function () {
@@ -362,6 +388,9 @@ window.onload = function () {
     )
   );
 
-  showCommonLine("start", `Hi! Do you think you're a good programmer? Let's check this. Type <span class="marked">GO</span> to start the quiz...`);
+  showCommonLine(
+    "start",
+    `Hi! Do you think you're a good programmer? Let's check this. Type <span class="marked">GO</span> to start the quiz...`
+  );
   quiz();
 };
