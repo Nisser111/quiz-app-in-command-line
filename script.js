@@ -43,7 +43,7 @@ class Question {
 
       commandLine.append(clone);
     } else {
-      alert("Your browswere doesn't support taplate.")
+      alert("Your browswere doesn't support taplate.");
     }
   }
 }
@@ -81,7 +81,7 @@ function getAnswer(lineHeader) {
     const commandLine = document.querySelector("main");
 
     let line = document.createElement("div");
-    line.classList.add("line");
+    line.classList.add("line", "has-answer");
 
     let span = document.createElement("span");
     span.innerText = "programmer-quiz\\";
@@ -91,31 +91,31 @@ function getAnswer(lineHeader) {
     header.innerText = lineHeader;
 
     span.appendChild(header);
-    span.innerHTML += "> ";
+    span.innerHTML += ">&nbsp;";
 
     line.appendChild(span);
 
-    let answerField = document.createElement("div");
+    let answerField = document.createElement("input");
     answerField.classList.add("answer");
-    answerField.setAttribute("contenteditable", "true");
-    answerField.innerHTML = "";
-
+    answerField.setAttribute("type", "text");
     line.appendChild(answerField);
 
     commandLine.appendChild(line);
+
+    // Set complementing width to answer field
+    answerField.style.width = line.offsetWidth - span.offsetWidth - 10 + "px";
 
     // Focus div
     const answerFields = document.querySelectorAll(".answer");
     let lastAnswerField = answerFields[answerFields.length - 1];
 
-    lastAnswerField.innerHTML = null;
     lastAnswerField.focus();
 
     // Submit answer
     lastAnswerField.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
-        e.target.setAttribute("contenteditable", "false");
-        resolve(e.target.innerText.toLowerCase().trim());
+        e.target.setAttribute("readonly", "readonly");
+        resolve(e.target.value.toLowerCase().trim());
       }
     });
   });
@@ -123,11 +123,13 @@ function getAnswer(lineHeader) {
 
 function validateAnswer(value, avaibleAsnwers) {
   return new Promise((resolve, reject) => {
-    if (Array.isArray(avaibleAsnwers)) resolve(avaibleAsnwers.includes(value));
-    else
+    if (Array.isArray(avaibleAsnwers)) {
+      resolve(avaibleAsnwers.includes(value));
+    } else {
       reject(
         "Sorry! We have some problems. We will fix them as soon as possible."
       );
+    }
   });
 }
 
@@ -146,7 +148,6 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
       showError(lineHeader, "We don't have that answer. Please type again...");
     }
   }
-  
 }
 
 async function startQuiz(userAns) {
@@ -203,47 +204,73 @@ async function showSummary(userScore) {
     case 1:
     case 2:
     case 3:
-      showCommonLine("summary", "It could be better but, your score is " + userScore + " points. We think you could use some more learning.")
+      showCommonLine(
+        "summary",
+        "It could be better but, your score is " +
+          userScore +
+          " points. We think you could use some more learning."
+      );
       break;
 
     case 4:
     case 5:
     case 6:
     case 7:
-      showCommonLine("summary", "Good, your score is " + userScore + " points. So a little study more and you will be a great programmer.")
+      showCommonLine(
+        "summary",
+        "Good, your score is " +
+          userScore +
+          " points. So a little study more and you will be a great programmer."
+      );
       break;
 
     case 8:
     case 9:
-      showCommonLine("summary", "Congratulation! Your score is " + userScore + " points. A few mistake isn't tragedy. You are a good programmer.")
+      showCommonLine(
+        "summary",
+        "Congratulation! Your score is " +
+          userScore +
+          " points. A few mistake isn't tragedy. You are a good programmer."
+      );
       break;
 
-    case 10: 
-      showCommonLine("summary", "Perfect! Your score is " + userScore + " points, that is to say, you're a awesome programmer.")
+    case 10:
+      showCommonLine(
+        "summary",
+        "Perfect! Your score is " +
+          userScore +
+          " points, that is to say, you're a awesome programmer."
+      );
       break;
-  
+
     default:
-      showError("summary", "Sorry! We have some problems. We will fix them as soon as possible.")
+      showError(
+        "summary",
+        "Sorry! We have some problems. We will fix them as soon as possible."
+      );
       break;
   }
 
-  showCommonLine("summary", 'If you want to repeat type <span class="marked">RESTART</span>');
-  return await getUserAnswer("summary", ['restart']);
+  showCommonLine(
+    "summary",
+    'If you want to repeat type <span class="marked">RESTART</span>...'
+  );
+  return await getUserAnswer("summary", ["restart"]);
 }
 
 async function repeat() {
-  const userScore = await startQuiz('go');
+  const userScore = await startQuiz("go");
   const summary = await showSummary(userScore);
-  if(summary === 'restart')
+  if (summary === "restart") {
     repeat();
+  }
 }
 
 async function quiz() {
   const appStart = await getUserAnswer("start", ["go"]);
   const userScore = await startQuiz(appStart);
   const summary = await showSummary(userScore);
-  if(summary === 'restart')
-    repeat();
+  if (summary === "restart") repeat();
 }
 
 window.onload = function () {
@@ -260,12 +287,12 @@ window.onload = function () {
     new Question(
       "What does CSS stand for?",
       [
-        "Cascading Style Sheets",
         "Creative Style System",
         "Computer Style Sheets",
+        "Cascading Style Sheets",
         "Colorful Style Symbols",
       ],
-      "a"
+      "c"
     )
   );
 
@@ -281,20 +308,20 @@ window.onload = function () {
     new Question(
       "What is the purpose of the JavaScript function `querySelector()`?",
       [
-        "To select an HTML element by its class or ID",
         "To perform mathematical calculations",
         "To add event listeners",
         "To change the page URL",
+        "To select an HTML element by its class or ID",
       ],
-      "a"
+      "d"
     )
   );
 
   questions.push(
     new Question(
       "Which of the following is a valid way to declare a CSS class?",
-      [".my-class", "#my-class", "class.my-class", "&lt;my-class&gt;"],
-      "a"
+      ["#my-class", ".my-class", "class.my-class", "&lt;my-class&gt;"],
+      "b"
     )
   );
 
@@ -303,11 +330,11 @@ window.onload = function () {
       "What is the correct syntax for a JavaScript `for` loop?",
       [
         "for (i = 0; i < 5; i++)",
-        "for (var i = 0; i < 5; i++)",
         "for (i < 5; i++)",
         "for (i = 0; i++)",
+        "for (var i = 0; i < 5; i++)",
       ],
-      "a"
+      "d"
     )
   );
 
@@ -337,11 +364,11 @@ window.onload = function () {
       "What is the purpose of the HTML &lt;canvas&gt; element?",
       [
         "To display images",
-        "To create animations and graphics",
         "To embed videos",
+        "To create animations and graphics",
         "To style text",
       ],
-      "b"
+      "c"
     )
   );
 
@@ -351,13 +378,16 @@ window.onload = function () {
       [
         "Increases the font size",
         "Changes the background color",
-        "Makes an element visible on hover",
         "Hides an element from the webpage",
+        "Makes an element visible on hover",
       ],
-      "d"
+      "c"
     )
   );
 
-  showCommonLine("start", `Hi! Do you think you're a good programmer? Let's check this. Type <span class="marked">GO</span> to start the quiz...`);
+  showCommonLine(
+    "start",
+    `Hi! Do you think you're a good programmer? Let's check this. Type <span class="marked">GO</span> to start the quiz...`
+  );
   quiz();
 };

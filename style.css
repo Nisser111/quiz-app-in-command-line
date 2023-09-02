@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Space Mono", Courier, monospace;
+  line-height: 1.8em;
 }
 
 :root {
@@ -12,7 +13,7 @@
   --fontColor: #f7f7f7;
   --containerBorderColor: #28272b;
   --containerRadius: 5px;
-  --responsibleFontSize: clamp(.7rem, 2vw, 1.1rem);
+  --responsibleFontSize: clamp(1rem, 2vw, 1.3rem);
   --scrollBarBtnColor: #3b3a3f;
   --errorFontColor: rgb(158, 0, 0);
 }
@@ -54,28 +55,34 @@ main {
 }
 
 .line {
-    margin-bottom: 2% 0;
+  margin-bottom: 2% 0;
 }
 
 .line span:nth-child(1) {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .marked {
-    color: var(--complementaryColor);
-    font-weight: 700;
-    animation: flashing 1s infinite linear;
+  color: var(--complementaryColor);
+  font-weight: 700;
+  animation: flashing 1s infinite linear;
+}
+
+.line.has-answer {
+  display: flex;
 }
 
 .answer {
-    display: inline-block;
-    min-width: 40%;
-    outline: none;
-    caret-color: var(--fontColor);
-    font-size: var(--responsibleFontSize);
-    color: var(--fontColor);
-    word-break: break-all;
-    cursor: text;
+  min-width: 50%;
+  background: transparent;
+  border: none;
+  outline: none;
+  caret-color: var(--fontColor);
+  font-size: var(--responsibleFontSize);
+  color: var(--fontColor);
+  word-break: break-all;
+  cursor: text;
+  caret-color: var(--complementaryColor);
 }
 
 /* scroll bar */
@@ -90,13 +97,13 @@ main::-webkit-scrollbar-thumb {
 }
 
 @keyframes flashing {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

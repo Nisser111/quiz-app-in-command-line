@@ -29,8 +29,8 @@
    - D. \<my-class>
 
 6. What is the correct syntax for a JavaScript `for` loop?
-   - A. __for (i = 0; i < 5; i++)__
-   - B. for (var i = 0; i < 5; i++)
+   - A. for (i = 0; i < 5; i++)
+   - B. __for (var i = 0; i < 5; i++)__
    - C. for (i < 5; i++)
    - D. for (i = 0; i++)
 
