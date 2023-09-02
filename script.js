@@ -114,7 +114,7 @@ function getAnswer(lineHeader) {
     // Submit answer
     lastAnswerField.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
-        e.target.setAttribute("contenteditable", "false");
+        e.target.setAttribute("readonly", "readonly");
         resolve(e.target.value.toLowerCase().trim());
       }
     });
