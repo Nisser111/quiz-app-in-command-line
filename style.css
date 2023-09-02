@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Space Mono", Courier, monospace;
+  line-height: 1.8rem;
 }
 
 :root {
@@ -73,6 +74,8 @@ main {
 
 .answer {
     min-width: 50%;
+    background: transparent;
+    border: none;
     outline: none;
     caret-color: var(--fontColor);
     font-size: var(--responsibleFontSize);

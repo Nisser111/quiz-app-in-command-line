@@ -95,11 +95,9 @@ function getAnswer(lineHeader) {
 
     line.appendChild(span);
 
-    let answerField = document.createElement("div");
+    let answerField = document.createElement("input");
     answerField.classList.add("answer");
-    answerField.setAttribute("contenteditable", "true");
-    answerField.innerText = "";
-
+    answerField.setAttribute("type", "text");
     line.appendChild(answerField);
 
     commandLine.appendChild(line);
@@ -111,14 +109,13 @@ function getAnswer(lineHeader) {
     const answerFields = document.querySelectorAll(".answer");
     let lastAnswerField = answerFields[answerFields.length - 1];
 
-    lastAnswerField.innerHTML = null;
     lastAnswerField.focus();
 
     // Submit answer
     lastAnswerField.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
         e.target.setAttribute("contenteditable", "false");
-        resolve(e.target.innerText.toLowerCase().trim());
+        resolve(e.target.value.toLowerCase().trim());
       }
     });
   });
