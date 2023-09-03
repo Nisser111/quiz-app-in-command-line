@@ -55,8 +55,7 @@ function showError(lineHeader, content) {
   const commandLine = document.querySelector("main");
 
   let line = document.createElement("div");
-  line.classList.add("line");
-  line.style.color = "var(--errorFontColor)";
+  line.classList.add("line", "error");
 
   let span = document.createElement("span");
   span.innerText = "programmer-quiz\\";
@@ -114,8 +113,13 @@ function getAnswer(lineHeader) {
     // Submit answer
     lastAnswerField.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
-        e.target.setAttribute("readonly", "readonly");
-        resolve(e.target.value.toLowerCase().trim());
+        if(e.target.value.toLowerCase().trim() === "clear") {
+          clearCommandLine();
+          e.target.value = "";
+        } else {
+          e.target.setAttribute("readonly", "readonly");
+          resolve(e.target.value.toLowerCase().trim());
+        }
       }
     });
   });
@@ -271,6 +275,15 @@ async function quiz() {
   const userScore = await startQuiz(appStart);
   const summary = await showSummary(userScore);
   if (summary === "restart") repeat();
+}
+
+function clearCommandLine() {
+  const commandLine = document.querySelector("main");
+  const lines = document.querySelectorAll(".line");
+
+  for(let l = 0; l < (lines.length - 2); l++) {
+    commandLine.removeChild(lines[l]);
+  }
 }
 
 window.onload = function () {

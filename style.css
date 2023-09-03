@@ -72,6 +72,10 @@ main {
   display: flex;
 }
 
+.line.error {
+  color: var(--errorFontColor);
+}
+
 .answer {
   min-width: 50%;
   background: transparent;
