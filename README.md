@@ -5,7 +5,7 @@
 
 <h2 align="center"><b>Quiz app in console</b></h2>
 
-This project was created by using basic front-end technologies. Users can do an easy quiz about frontend development but not questions are important. Control application is similar to popular command lines. The app taught me support for asynchronous functions and promises. This is my first application that employs asynchronic so it isn't very optimal. To understand the theme I used to learn from [this](https://www.youtube.com/watch?v=MD1euJQQkLQ&t=97s) YouTube channel.
+This project was created by using basic front-end technologies. Users can do an easy quiz about frontend development but not questions are important. Control application is similar to popular command lines. It have some popular command like clear. The app taught me support for asynchronous functions and promises. This is my first application that employs asynchronic so it isn't very optimal. To understand the theme I used to learn from [this](https://www.youtube.com/watch?v=MD1euJQQkLQ&t=97s) YouTube channel.
 
 <h2 align="center"><a href="https://nisser111.github.io/quiz-app-in-command-line/">DEMO</a></h2>
 
@@ -21,7 +21,7 @@ This project was created by using basic front-end technologies. Users can do an 
 
 ## 📈 Goals:
 
-- [ ] Make custom square caret
+- [x] Make global command clear
 - [ ] New JavaScript structure
 - [ ] Show user bad answer on summary
 - [ ] Make random question machanizm
