@@ -157,6 +157,7 @@ async function getUserAnswer(lineHeader, avaibleAsnwers) {
 async function startQuiz(userAns) {
   if (userAns === "go") {
     let score = 0;
+    let misstakes = [];
     for (let q in questions) {
       const currentQuestion = questions[q];
       const questionNum = parseInt(q) + 1;
@@ -170,10 +171,13 @@ async function startQuiz(userAns) {
       ]);
 
       if (await currentQuestion.checkAnswer(userAns)) score++;
+      else misstakes.push(questions[q]);
+
+      // console.log(misstakes);
     }
 
     return new Promise((resolve) => {
-      resolve(score);
+      resolve({score: score, misstakes: misstakes,});
     });
   }
 }
@@ -257,9 +261,10 @@ async function showSummary(userScore) {
 
   showCommonLine(
     "summary",
-    'If you want to repeat type <span class="marked">RESTART</span>...'
+    'If you want to see your misstakes type <span class="marked">MORE</span>. If you want to repeat type <span class="marked">RESTART</span>...'
   );
-  return await getUserAnswer("summary", ["restart"]);
+
+  return await getUserAnswer("summary", ["restart", "more"]);  
 }
 
 async function repeat() {
@@ -273,17 +278,31 @@ async function repeat() {
 async function quiz() {
   const appStart = await getUserAnswer("start", ["go"]);
   const userScore = await startQuiz(appStart);
-  const summary = await showSummary(userScore);
+  const summary = await showSummary(userScore.score);
   if (summary === "restart") repeat();
+  else if (summary === "more") showMisstakes(userScore.misstakes);
 }
 
 function clearCommandLine() {
   const commandLine = document.querySelector("main");
   const lines = document.querySelectorAll(".line");
-
-  for(let l = 0; l < (lines.length - 2); l++) {
-    commandLine.removeChild(lines[l]);
+  
+  for(const el of lines) {
+    if(el.classList.contains("error") 
+    || el.classList.contains("has-answer") 
+    && el.lastChild.hasAttribute("readonly")) {
+      el.remove();
+    }
   }
+
+  let filteredLines = document.querySelectorAll(".line");
+  for(let l = 0; l < (filteredLines.length - 2); l++) {
+    commandLine.removeChild(filteredLines[l]);
+  }
+}
+
+function showMisstakes(misstakes) {
+  // console.log(misstakes)
 }
 
 window.onload = function () {
