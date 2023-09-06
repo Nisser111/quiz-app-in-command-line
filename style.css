@@ -15,7 +15,7 @@
   --containerRadius: 5px;
   --responsibleFontSize: clamp(1rem, 2vw, 1.3rem);
   --scrollBarBtnColor: #3b3a3f;
-  --errorFontColor: rgb(158, 0, 0);
+  --errorFontColor: #9e0000;
 }
 
 body {

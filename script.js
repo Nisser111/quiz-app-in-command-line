@@ -46,6 +46,79 @@ class Question {
       alert("Your browswere doesn't support taplate.");
     }
   }
+
+  showMisstake(num, userAns) {
+    if ("content" in document.createElement("template")) {
+      const commandLine = document.querySelector("main");
+
+      const template = document.querySelector("#questionLine");
+      const clone = template.content.cloneNode(true);
+
+      const header = clone.querySelector(".header");
+      const question = clone.querySelector(".question");
+      const ansA = clone.querySelector(".ansA");
+      const ansB = clone.querySelector(".ansB");
+      const ansC = clone.querySelector(".ansC");
+      const ansD = clone.querySelector(".ansD");
+
+      const number = parseInt(num);
+
+      header.innerHTML = "question-" + number;
+      question.innerHTML = this.question;
+      ansA.innerHTML += this.ansA;
+      ansB.innerHTML += this.ansB;
+      ansC.innerHTML += this.ansC;
+      ansD.innerHTML += this.ansD;
+      
+      const correctAnsColor = "#03C03C";
+      const wrongAnscolor = "#9e0000";
+
+      
+      switch (this.correctAns) {
+        case "a":
+          ansA.style.color = correctAnsColor;
+          break;
+        case "b":
+          ansB.style.color = correctAnsColor;
+          break;
+        case "c":
+          ansC.style.color = correctAnsColor;
+          break;
+        case "d":
+          ansD.style.color = correctAnsColor;
+          break;
+      
+        default:
+          alert("Sorry! We have some problems. We will fix them as soon as possible");
+          break;
+      }
+      
+      switch (userAns) {
+        case "a":
+          ansA.style.color = wrongAnscolor;
+          break;
+        case "b":
+          ansB.style.color = wrongAnscolor;
+          break;
+        case "c":
+          ansC.style.color = wrongAnscolor;
+          break;
+        case "d":
+          ansD.style.color = wrongAnscolor;
+          break;
+      
+        default:
+          alert("Sorry! We have some problems. We will fix them as soon as possible");
+          break;
+      }
+
+      commandLine.append(clone);
+
+
+    } else {
+      alert("Your browswere doesn't support template.");
+    }
+  }
 }
 
 let questions = [];
@@ -171,7 +244,11 @@ async function startQuiz(userAns) {
       ]);
 
       if (await currentQuestion.checkAnswer(userAns)) score++;
-      else misstakes.push(questions[q]);
+      else misstakes.push({
+        question: questions[q],
+        userAnswer: userAns,
+        questionNum: questionNum,
+      });
 
       // console.log(misstakes);
     }
@@ -269,10 +346,9 @@ async function showSummary(userScore) {
 
 async function repeat() {
   const userScore = await startQuiz("go");
-  const summary = await showSummary(userScore);
-  if (summary === "restart") {
-    repeat();
-  }
+  const summary = await showSummary(userScore.score);
+  if (summary === "restart") repeat();
+  else if (summary === "more") misstakeReview(userScore.misstakes);
 }
 
 async function quiz() {
@@ -280,7 +356,7 @@ async function quiz() {
   const userScore = await startQuiz(appStart);
   const summary = await showSummary(userScore.score);
   if (summary === "restart") repeat();
-  else if (summary === "more") showMisstakes(userScore.misstakes);
+  else if (summary === "more") misstakeReview(userScore.misstakes);
 }
 
 function clearCommandLine() {
@@ -301,8 +377,20 @@ function clearCommandLine() {
   }
 }
 
-function showMisstakes(misstakes) {
-  // console.log(misstakes)
+async function misstakeReview(misstakes) {
+  misstakes.forEach(misstake => {
+    let {question, userAnswer, questionNum} = misstake;
+    question.showMisstake(questionNum, userAnswer);
+  });
+
+  showCommonLine(
+    "summary",
+    'If you want to repeat type <span class="marked">RESTART</span>...'
+  );
+
+  let ans = await getUserAnswer("summary", ["restart"]);
+  if(ans === "restart")
+    repeat();
 }
 
 window.onload = function () {
