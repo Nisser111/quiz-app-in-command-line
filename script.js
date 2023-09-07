@@ -121,7 +121,13 @@ class Question {
   }
 }
 
-let questions = [];
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 function showError(lineHeader, content) {
   // Create element
@@ -394,8 +400,10 @@ async function misstakeReview(misstakes) {
 }
 
 window.onload = function () {
+  let questionBeforeShuffle = [];
+
   // adding questions
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "Which of the following languages is not used for frontend development?",
       ["HTML", "Java", "CSS", "JavaScript"],
@@ -403,7 +411,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "What does CSS stand for?",
       [
@@ -416,7 +424,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "Which HTML tag is used to define an unordered list?",
       ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;li&gt;", "&lt;list&gt;"],
@@ -424,7 +432,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "What is the purpose of the JavaScript function `querySelector()`?",
       [
@@ -437,7 +445,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "Which of the following is a valid way to declare a CSS class?",
       ["#my-class", ".my-class", "class.my-class", "&lt;my-class&gt;"],
@@ -445,7 +453,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "What is the correct syntax for a JavaScript `for` loop?",
       [
@@ -458,7 +466,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "What does the acronym API stand for in web development?",
       [
@@ -471,7 +479,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "Which of the following is used to make a webpage responsive to different screen sizes?",
       ["Media queries", "JavaScript", "CSS selectors", "HTML forms"],
@@ -479,7 +487,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "What is the purpose of the HTML &lt;canvas&gt; element?",
       [
@@ -492,7 +500,7 @@ window.onload = function () {
     )
   );
 
-  questions.push(
+  questionBeforeShuffle.push(
     new Question(
       "What does the CSS property `display: none;` do?",
       [
@@ -504,6 +512,9 @@ window.onload = function () {
       "c"
     )
   );
+  
+  window.questions = shuffleArray(questionBeforeShuffle);
+  console.log(questions)
 
   showCommonLine(
     "start",

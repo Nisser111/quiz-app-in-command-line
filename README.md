@@ -24,7 +24,7 @@ This project was created by using basic front-end technologies. Users can do an 
 - [x] Make global command clear
 - [ ] New JavaScript structure
 - [x] Show incorrect answer on summary (command <i>more</i>)
-- [ ] Make random question machanizm
+- [x] Make random question machanizm
 
 <br>
 
