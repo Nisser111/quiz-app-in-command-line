@@ -384,10 +384,13 @@ function clearCommandLine() {
 }
 
 async function misstakeReview(misstakes) {
-  misstakes.forEach(misstake => {
-    let {question, userAnswer, questionNum} = misstake;
-    question.showMisstake(questionNum, userAnswer);
-  });
+  if(misstakes.length === 0) 
+    showCommonLine("summary", "You didn't make any misstake.")
+  else
+    misstakes.forEach(misstake => {
+      let {question, userAnswer, questionNum} = misstake;
+      question.showMisstake(questionNum, userAnswer);
+    });
 
   showCommonLine(
     "summary",
